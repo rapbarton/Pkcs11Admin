@@ -47,12 +47,7 @@ namespace Net.Pkcs11Admin.WinForms
             // Set DoubleBuffered property of ListViews
             PropertyInfo property = typeof(ListView).GetProperty("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance);
             property.SetValue(ListViewBasicInfo, true, null);
-            property.SetValue(ListViewMechanisms, true, null);
-            property.SetValue(ListViewHwFeatures, true, null);
-            property.SetValue(ListViewDataObjects, true, null);
             property.SetValue(ListViewCertificates, true, null);
-            property.SetValue(ListViewKeys, true, null);
-            property.SetValue(ListViewDomainParams, true, null);
 
             ReloadForm();
         }
@@ -412,28 +407,8 @@ namespace Net.Pkcs11Admin.WinForms
 
             MenuItemObject.Enabled = enabled;
 
-            MenuItemObjectNew.Enabled = enabled;
-            MenuItemObjectNewData.Enabled = enabled;
-            MenuItemObjectNewKey.Enabled = enabled;
-            MenuItemObjectNewCsr.Enabled = enabled;
-            MenuItemObjectNewCert.Enabled = enabled;
-
-            MenuItemObjectEdit.Enabled = enabled;
             MenuItemObjectDelete.Enabled = enabled;
-
-            MenuItemObjectView.Enabled = enabled;
-            MenuItemObjectViewData.Enabled = enabled;
-            MenuItemObjectViewCert.Enabled = enabled;
-
-            MenuItemObjectImport.Enabled = enabled;
-            MenuItemObjectImportData.Enabled = enabled;
-            MenuItemObjectImportCert.Enabled = enabled;
-            MenuItemObjectImportKey.Enabled = enabled;
-
-            MenuItemObjectExport.Enabled = enabled;
-            MenuItemObjectExportData.Enabled = enabled;
-            MenuItemObjectExportCert.Enabled = enabled;
-            MenuItemObjectExportKey.Enabled = enabled;
+                        
         }
 
         private async void MenuItemObjectNewData_Click(object sender, EventArgs e)
@@ -475,7 +450,7 @@ namespace Net.Pkcs11Admin.WinForms
             ShowDataObjectContent();
         }
 
-        private void MenuItemObjectViewCert_Click(object sender, EventArgs e)
+        private void MenuItemObjectView_Click(object sender, EventArgs e)
         {
             ShowCertificateDetails();
         }
@@ -516,19 +491,6 @@ namespace Net.Pkcs11Admin.WinForms
 
         #region MenuItemTools
 
-        private void ReloadMenuItemTools()
-        {
-            MenuItemTools.Enabled = true;
-
-            MenuItemCsvExport.Enabled = (_selectedLibrary != null);
-            MenuItemCsvExportAll.Enabled = (_selectedLibrary != null);
-            MenuItemCsvExportSelected.Enabled = (_selectedLibrary != null);
-
-            MenuItemPkcs11Uri.Enabled = true;
-            MenuItemPkcs11UriEmpty.Enabled = true;
-            MenuItemPkcs11UriWithObject.Enabled = ((_selectedSlot != null) && (_selectedSlot.SessionInfo != null));
-            MenuItemPkcs11UriWithoutObject.Enabled = (_selectedLibrary != null);
-        }
 
         private void MenuItemCsvExportAll_Click(object sender, EventArgs e)
         {
@@ -739,43 +701,11 @@ namespace Net.Pkcs11Admin.WinForms
         private void ReloadTabPageMechanisms()
         {
             bool controlsEnabled = (!((_selectedSlot == null) || (_selectedSlot.Mechanisms == null) || (_selectedSlot.MechanismsException != null)));
-            TabPageMechanisms.Enabled = controlsEnabled;
-            ListViewMechanisms.HeaderStyle = (controlsEnabled) ? ColumnHeaderStyle.Clickable : ColumnHeaderStyle.None;
             ReloadListViewMechanisms();
         }
 
         private void ReloadListViewMechanisms()
         {
-            ListViewMechanisms.BeginUpdate();
-
-            ListViewMechanisms.Columns.Clear();
-            ListViewMechanisms.Items.Clear();
-            ListViewMechanisms.Groups.Clear();
-
-            ListViewMechanisms.AddColumn("Mechanism", EnhancedListView.ColumnType.String, HorizontalAlignment.Left);
-            ListViewMechanisms.AddColumn("Min key size", EnhancedListView.ColumnType.ULong, HorizontalAlignment.Center);
-            ListViewMechanisms.AddColumn("Max key size", EnhancedListView.ColumnType.ULong, HorizontalAlignment.Center);
-            ListViewMechanisms.AddColumn("Flags", EnhancedListView.ColumnType.ULong, HorizontalAlignment.Center);
-            ListViewMechanisms.AddColumn("Performed in HW", EnhancedListView.ColumnType.Bool, HorizontalAlignment.Center);
-            ListViewMechanisms.AddColumn("Encryption", EnhancedListView.ColumnType.Bool, HorizontalAlignment.Center);
-            ListViewMechanisms.AddColumn("Decryption", EnhancedListView.ColumnType.Bool, HorizontalAlignment.Center);
-            ListViewMechanisms.AddColumn("Digesting", EnhancedListView.ColumnType.Bool, HorizontalAlignment.Center);
-            ListViewMechanisms.AddColumn("Signing", EnhancedListView.ColumnType.Bool, HorizontalAlignment.Center);
-            ListViewMechanisms.AddColumn("Signing with recovery", EnhancedListView.ColumnType.Bool, HorizontalAlignment.Center);
-            ListViewMechanisms.AddColumn("Verification", EnhancedListView.ColumnType.Bool, HorizontalAlignment.Center);
-            ListViewMechanisms.AddColumn("Verification with recovery", EnhancedListView.ColumnType.Bool, HorizontalAlignment.Center);
-            ListViewMechanisms.AddColumn("Key generation", EnhancedListView.ColumnType.Bool, HorizontalAlignment.Center);
-            ListViewMechanisms.AddColumn("Key pair generation", EnhancedListView.ColumnType.Bool, HorizontalAlignment.Center);
-            ListViewMechanisms.AddColumn("Key wrapping", EnhancedListView.ColumnType.Bool, HorizontalAlignment.Center);
-            ListViewMechanisms.AddColumn("Key unwrapping", EnhancedListView.ColumnType.Bool, HorizontalAlignment.Center);
-            ListViewMechanisms.AddColumn("Key derivation", EnhancedListView.ColumnType.Bool, HorizontalAlignment.Center);
-            ListViewMechanisms.AddColumn("Has extensions", EnhancedListView.ColumnType.Bool, HorizontalAlignment.Center);
-            ListViewMechanisms.AddColumn("EC over Fp", EnhancedListView.ColumnType.Bool, HorizontalAlignment.Center);
-            ListViewMechanisms.AddColumn("EC over F2m", EnhancedListView.ColumnType.Bool, HorizontalAlignment.Center);
-            ListViewMechanisms.AddColumn("EC with ecParameters", EnhancedListView.ColumnType.Bool, HorizontalAlignment.Center);
-            ListViewMechanisms.AddColumn("EC with namedCurve", EnhancedListView.ColumnType.Bool, HorizontalAlignment.Center);
-            ListViewMechanisms.AddColumn("EC point uncompressed", EnhancedListView.ColumnType.Bool, HorizontalAlignment.Center);
-            ListViewMechanisms.AddColumn("EC point compressed", EnhancedListView.ColumnType.Bool, HorizontalAlignment.Center);
 
             List<KeyValuePair<object, string[]>> data = new List<KeyValuePair<object, string[]>>();
 
@@ -811,13 +741,8 @@ namespace Net.Pkcs11Admin.WinForms
                     }));
                 }
 
-                WinFormsUtils.AppendToListView(ListViewMechanisms, null, data);
             }
 
-            ListViewMechanisms.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-            ListViewMechanisms.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
-
-            ListViewMechanisms.EndUpdate();
         }
 
         #region ContextMenuMechanisms
@@ -841,21 +766,11 @@ namespace Net.Pkcs11Admin.WinForms
         private void ReloadTabPageHwFeatures()
         {
             bool controlsEnabled = (!((_selectedSlot == null) || (_selectedSlot.HwFeatures == null) || (_selectedSlot.HwFeaturesException != null)));
-            TabPageHwFeatures.Enabled = controlsEnabled;
-            ListViewHwFeatures.HeaderStyle = (controlsEnabled) ? ColumnHeaderStyle.Clickable : ColumnHeaderStyle.None;
             ReloadListViewHwFeatures();
         }
 
         private void ReloadListViewHwFeatures()
         {
-            ListViewHwFeatures.BeginUpdate();
-
-            ListViewHwFeatures.Columns.Clear();
-            ListViewHwFeatures.Items.Clear();
-            ListViewHwFeatures.Groups.Clear();
-
-            ListViewHwFeatures.AddColumn("HW feature type", EnhancedListView.ColumnType.String, HorizontalAlignment.Left);
-            ListViewHwFeatures.AddColumn("Storage size", EnhancedListView.ColumnType.ULong, HorizontalAlignment.Left);
 
             List<KeyValuePair<object, string[]>> data = new List<KeyValuePair<object, string[]>>();
 
@@ -869,13 +784,8 @@ namespace Net.Pkcs11Admin.WinForms
                     }));
                 }
 
-                WinFormsUtils.AppendToListView(ListViewHwFeatures, null, data);
             }
 
-            ListViewHwFeatures.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-            ListViewHwFeatures.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
-
-            ListViewHwFeatures.EndUpdate();
         }
 
         #region ContextMenuHwFeatures
@@ -905,23 +815,11 @@ namespace Net.Pkcs11Admin.WinForms
         private void ReloadTabPageDataObjects()
         {
             bool controlsEnabled = (!((_selectedSlot == null) || (_selectedSlot.DataObjects == null) || (_selectedSlot.DataObjectsException != null)));
-            TabPageDataObjects.Enabled = controlsEnabled;
-            ListViewDataObjects.HeaderStyle = (controlsEnabled) ? ColumnHeaderStyle.Clickable : ColumnHeaderStyle.None;
             ReloadListViewDataObjects();
         }
 
         private void ReloadListViewDataObjects()
         {
-            ListViewDataObjects.BeginUpdate();
-
-            ListViewDataObjects.Columns.Clear();
-            ListViewDataObjects.Items.Clear();
-            ListViewDataObjects.Groups.Clear();
-
-            ListViewDataObjects.AddColumn("Label", EnhancedListView.ColumnType.String, HorizontalAlignment.Left);
-            ListViewDataObjects.AddColumn("Application", EnhancedListView.ColumnType.String, HorizontalAlignment.Left);
-            ListViewDataObjects.AddColumn("Private", EnhancedListView.ColumnType.Bool, HorizontalAlignment.Left);
-            ListViewDataObjects.AddColumn("Storage size", EnhancedListView.ColumnType.ULong, HorizontalAlignment.Left);
 
             List<KeyValuePair<object, string[]>> data = new List<KeyValuePair<object, string[]>>();
 
@@ -937,13 +835,7 @@ namespace Net.Pkcs11Admin.WinForms
                     }));
                 }
 
-                WinFormsUtils.AppendToListView(ListViewDataObjects, null, data);
             }
-
-            ListViewDataObjects.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-            ListViewDataObjects.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
-
-            ListViewDataObjects.EndUpdate();
         }
 
         #region ContextMenuDataObjects
@@ -1108,25 +1000,11 @@ namespace Net.Pkcs11Admin.WinForms
         private void ReloadTabPageKeys()
         {
             bool controlsEnabled = (!((_selectedSlot == null) || (_selectedSlot.Keys == null) || (_selectedSlot.KeysException != null)));
-            TabPageKeys.Enabled = controlsEnabled;
-            ListViewKeys.HeaderStyle = (controlsEnabled) ? ColumnHeaderStyle.Clickable : ColumnHeaderStyle.None;
             ReloadListViewKeys();
         }
 
         private void ReloadListViewKeys()
         {
-            ListViewKeys.BeginUpdate();
-
-            ListViewKeys.Columns.Clear();
-            ListViewKeys.Items.Clear();
-            ListViewKeys.Groups.Clear();
-
-            ListViewKeys.AddColumn("Label", EnhancedListView.ColumnType.String, HorizontalAlignment.Left);
-            ListViewKeys.AddColumn("ID", EnhancedListView.ColumnType.String, HorizontalAlignment.Left);
-            ListViewKeys.AddColumn("Key type", EnhancedListView.ColumnType.String, HorizontalAlignment.Left);
-            ListViewKeys.AddColumn("Key type", EnhancedListView.ColumnType.String, HorizontalAlignment.Left);
-            ListViewKeys.AddColumn("Private", EnhancedListView.ColumnType.Bool, HorizontalAlignment.Left);
-            ListViewKeys.AddColumn("Storage size", EnhancedListView.ColumnType.ULong, HorizontalAlignment.Left);
 
             List<KeyValuePair<object, string[]>> data = new List<KeyValuePair<object, string[]>>();
 
@@ -1144,13 +1022,8 @@ namespace Net.Pkcs11Admin.WinForms
                     }));
                 }
 
-                WinFormsUtils.AppendToListView(ListViewKeys, null, data);
             }
 
-            ListViewKeys.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-            ListViewKeys.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
-
-            ListViewKeys.EndUpdate();
         }
 
         #region ContextMenuKeys
@@ -1222,24 +1095,11 @@ namespace Net.Pkcs11Admin.WinForms
         private void ReloadTabPageDomainParams()
         {
             bool controlsEnabled = (!((_selectedSlot == null) || (_selectedSlot.DomainParams == null) || (_selectedSlot.DomainParamsException != null)));
-            TabPageDomainParams.Enabled = controlsEnabled;
-            ListViewDomainParams.HeaderStyle = (controlsEnabled) ? ColumnHeaderStyle.Clickable : ColumnHeaderStyle.None;
             ReloadListViewDomainParams();
         }
 
         private void ReloadListViewDomainParams()
         {
-            ListViewDomainParams.BeginUpdate();
-
-            ListViewDomainParams.Columns.Clear();
-            ListViewDomainParams.Items.Clear();
-            ListViewDomainParams.Groups.Clear();
-
-            ListViewDomainParams.AddColumn("Label", EnhancedListView.ColumnType.String, HorizontalAlignment.Left);
-            ListViewDomainParams.AddColumn("Key type", EnhancedListView.ColumnType.String, HorizontalAlignment.Left);
-            ListViewDomainParams.AddColumn("Private", EnhancedListView.ColumnType.Bool, HorizontalAlignment.Left);
-            ListViewDomainParams.AddColumn("Storage size", EnhancedListView.ColumnType.ULong, HorizontalAlignment.Left);
-
             List<KeyValuePair<object, string[]>> data = new List<KeyValuePair<object, string[]>>();
 
             if ((_selectedSlot != null) && (_selectedSlot.DomainParams != null))
@@ -1254,13 +1114,8 @@ namespace Net.Pkcs11Admin.WinForms
                     }));
                 }
 
-                WinFormsUtils.AppendToListView(ListViewDomainParams, null, data);
             }
 
-            ListViewDomainParams.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-            ListViewDomainParams.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
-
-            ListViewDomainParams.EndUpdate();
         }
 
         #region ContextMenuDomainParams
@@ -1320,47 +1175,12 @@ namespace Net.Pkcs11Admin.WinForms
                 else
                     ShowInfoInStatusStrip(string.Empty);
             }
-            else if (MainFormTabControl.SelectedTab == TabPageMechanisms)
-            {
-                if (_selectedSlot.MechanismsException != null)
-                    ShowExceptionInStatusStrip(_selectedSlot.MechanismsException);
-                else
-                    ShowObjectCountInStatusStrip(ListViewMechanisms.Items.Count);
-            }
-            else if (MainFormTabControl.SelectedTab == TabPageHwFeatures)
-            {
-                if (_selectedSlot.HwFeaturesException != null)
-                    ShowExceptionInStatusStrip(_selectedSlot.HwFeaturesException);
-                else
-                    ShowObjectCountInStatusStrip(ListViewHwFeatures.Items.Count);
-            }
-            else if (MainFormTabControl.SelectedTab == TabPageDataObjects)
-            {
-                if (_selectedSlot.DataObjectsException != null)
-                    ShowExceptionInStatusStrip(_selectedSlot.DataObjectsException);
-                else
-                    ShowObjectCountInStatusStrip(ListViewDataObjects.Items.Count);
-            }
             else if (MainFormTabControl.SelectedTab == TabPageCertificates)
             {
                 if (_selectedSlot.CertificatesException != null)
                     ShowExceptionInStatusStrip(_selectedSlot.CertificatesException);
                 else
                     ShowObjectCountInStatusStrip(ListViewCertificates.Items.Count);
-            }
-            else if (MainFormTabControl.SelectedTab == TabPageKeys)
-            {
-                if (_selectedSlot.KeysException != null)
-                    ShowExceptionInStatusStrip(_selectedSlot.KeysException);
-                else
-                    ShowObjectCountInStatusStrip(ListViewKeys.Items.Count);
-            }
-            else if (MainFormTabControl.SelectedTab == TabPageDomainParams)
-            {
-                if (_selectedSlot.DomainParamsException != null)
-                    ShowExceptionInStatusStrip(_selectedSlot.DomainParamsException);
-                else
-                    ShowObjectCountInStatusStrip(ListViewDomainParams.Items.Count);
             }
             else
             {
@@ -1403,7 +1223,6 @@ namespace Net.Pkcs11Admin.WinForms
             ReloadMenuItemSlot();
             ReloadMenuItemToken();
             ReloadMenuItemObject();
-            ReloadMenuItemTools();
 
             ReloadTabPageBasicInfo();
             ReloadTabPageMechanisms();
@@ -1491,30 +1310,8 @@ namespace Net.Pkcs11Admin.WinForms
 
         private void GenerateCsr()
         {
-            if (MainFormTabControl.SelectedTab != TabPageKeys)
-            {
-                WinFormsUtils.ShowInfo(this, "Please select key first");
-                return;
-            }
-
-            ListViewItem selectedItem = WinFormsUtils.GetSingleSelectedItem(ListViewKeys);
-            if (selectedItem == null)
-            {
-                WinFormsUtils.ShowInfo(this, "Please select key first");
-                return;
-            }
-
-            Pkcs11KeyInfo privKeyInfo = selectedItem.Tag as Pkcs11KeyInfo;
-            if (privKeyInfo == null || privKeyInfo.CkaClass != (ulong)CKO.CKO_PRIVATE_KEY)
-            {
-                WinFormsUtils.ShowInfo(this, "Please select private key");
-                return;
-            }
-
-            Pkcs11KeyInfo pubKeyInfo = null; // TODO - Public key is needed for ECC
-
-            using (CsrDialog csrDialog = new CsrDialog(_selectedSlot, privKeyInfo, pubKeyInfo))
-                csrDialog.ShowDialog();
+            WinFormsUtils.ShowInfo(this, "Not implemented");
+            return;
         }
 
         private bool CreatePkcs11Object()
@@ -1580,22 +1377,8 @@ namespace Net.Pkcs11Admin.WinForms
 
         private void ShowDataObjectContent()
         {
-            if (MainFormTabControl.SelectedTab != TabPageDataObjects)
-            {
                 WinFormsUtils.ShowInfo(this, "Please select certificate first");
                 return;
-            }
-
-            ListViewItem selectedItem = WinFormsUtils.GetSingleSelectedItem(ListViewDataObjects);
-            if (selectedItem == null)
-                return;
-
-            string name = null;
-            byte[] content = null;
-            _selectedSlot.ExportDataObject((Pkcs11DataObjectInfo)selectedItem.Tag, out name, out content);
-
-            using (DataObjectDialog dataObjectDialog = new DataObjectDialog(name, content))
-                dataObjectDialog.ShowDialog(this);
         }
 
         private void ExportToCsv(bool onlySelected)
@@ -1608,35 +1391,10 @@ namespace Net.Pkcs11Admin.WinForms
                 listView = ListViewBasicInfo;
                 fileName = "basic_info";
             }
-            else if (MainFormTabControl.SelectedTab == TabPageMechanisms)
-            {
-                listView = ListViewMechanisms;
-                fileName = "mechanisms";
-            }
-            else if (MainFormTabControl.SelectedTab == TabPageHwFeatures)
-            {
-                listView = ListViewHwFeatures;
-                fileName = "hw_features";
-            }
-            else if (MainFormTabControl.SelectedTab == TabPageDataObjects)
-            {
-                listView = ListViewDataObjects;
-                fileName = "data_objects";
-            }
             else if (MainFormTabControl.SelectedTab == TabPageCertificates)
             {
                 listView = ListViewCertificates;
                 fileName = "certificates";
-            }
-            else if (MainFormTabControl.SelectedTab == TabPageKeys)
-            {
-                listView = ListViewKeys;
-                fileName = "keys";
-            }
-            else if (MainFormTabControl.SelectedTab == TabPageDomainParams)
-            {
-                listView = ListViewDomainParams;
-                fileName = "domain_params";
             }
 
             fileName += (onlySelected) ? "_selected_rows" : "_all_rows";
@@ -1687,43 +1445,6 @@ namespace Net.Pkcs11Admin.WinForms
 
         private void ExportDataObject()
         {
-            try
-            {
-                if (MainFormTabControl.SelectedTab != TabPageDataObjects)
-                {
-                    WinFormsUtils.ShowInfo(this, "Please select object first");
-                    return;
-                }
-
-                ListViewItem selectedItem = WinFormsUtils.GetSingleSelectedItem(ListViewDataObjects);
-                if (selectedItem == null)
-                    return;
-
-                string fileName = null;
-                byte[] fileContent = null;
-                _selectedSlot.ExportDataObject((Pkcs11DataObjectInfo)selectedItem.Tag, out fileName, out fileContent);
-
-                using (SaveFileDialog saveFileDialog = new SaveFileDialog())
-                {
-                    saveFileDialog.FileName = fileName;
-
-                    saveFileDialog.Filter = "All files (*.*)|*.*";
-                    saveFileDialog.FilterIndex = 1;
-
-                    saveFileDialog.CreatePrompt = false;
-                    saveFileDialog.OverwritePrompt = true;
-
-                    if (saveFileDialog.ShowDialog(this) == DialogResult.OK)
-                    {
-                        File.WriteAllBytes(saveFileDialog.FileName, fileContent);
-                        WinFormsUtils.ShowInfo(this, "Data object successfully exported");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                WinFormsUtils.ShowError(this, ex);
-            }
         }
 
         private bool ImportCertificate()
@@ -1800,27 +1521,11 @@ namespace Net.Pkcs11Admin.WinForms
         {
             ListView listView = null;
 
-            if (MainFormTabControl.SelectedTab == TabPageHwFeatures)
-            {
-                listView = ListViewHwFeatures;
-            }
-            else if (MainFormTabControl.SelectedTab == TabPageDataObjects)
-            {
-                listView = ListViewDataObjects;
-            }
-            else if (MainFormTabControl.SelectedTab == TabPageCertificates)
+            if (MainFormTabControl.SelectedTab == TabPageCertificates)
             {
                 listView = ListViewCertificates;
             }
-            else if (MainFormTabControl.SelectedTab == TabPageKeys)
-            {
-                listView = ListViewKeys;
-            }
-            else if (MainFormTabControl.SelectedTab == TabPageDomainParams)
-            {
-                listView = ListViewDomainParams;
-            }
-
+            
             return listView;
         }
 
@@ -1892,5 +1597,19 @@ namespace Net.Pkcs11Admin.WinForms
         }
 
         #endregion
+
+        private void viewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowCertificateDetails();
+        }
+
+        private async void importToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (ImportCertificate())
+                await ReloadFormAfter(_selectedSlot.Reload);
+        }
+
+        
+
     }
 }
