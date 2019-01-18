@@ -198,7 +198,7 @@ namespace Net.Pkcs11Admin.WinForms
         {
             if ((_selectedSlot == null) || (_selectedSlot.SessionInfo == null))
             {
-                MenuItemToken.Enabled = false;
+                MenuItemToken.Enabled = true;
 
                 MenuItemLogin.Enabled = false;
                 MenuItemUserLogin.Enabled = false;
@@ -214,8 +214,8 @@ namespace Net.Pkcs11Admin.WinForms
                 MenuItemSoChange.Enabled = false;
                 MenuItemProtectedSoChange.Enabled = false;
 
-                MenuItemInitToken.Enabled = false;
-                MenuItemTokenInit.Enabled = false;
+                MenuItemInitToken.Enabled = true;
+                MenuItemTokenInit.Enabled = true;
                 MenuItemProtectedTokenInit.Enabled = false;
 
                 MenuItemInitPin.Enabled = false;
@@ -240,8 +240,8 @@ namespace Net.Pkcs11Admin.WinForms
                 MenuItemSoChange.Enabled = _selectedSlot.SessionInfo.SoCanChangePin;
                 MenuItemProtectedSoChange.Enabled = _selectedSlot.SessionInfo.SoCanChangePinProtected;
 
-                MenuItemInitToken.Enabled = (_selectedSlot.SessionInfo.CanInitToken || _selectedSlot.SessionInfo.CanInitTokenProtected);
-                MenuItemTokenInit.Enabled = _selectedSlot.SessionInfo.CanInitToken;
+                MenuItemInitToken.Enabled = true;// (_selectedSlot.SessionInfo.CanInitToken || _selectedSlot.SessionInfo.CanInitTokenProtected);
+                MenuItemTokenInit.Enabled = true;// _selectedSlot.SessionInfo.CanInitToken;
                 MenuItemProtectedTokenInit.Enabled = _selectedSlot.SessionInfo.CanInitTokenProtected;
 
                 MenuItemInitPin.Enabled = _selectedSlot.SessionInfo.SoCanSetUserPin;
@@ -352,7 +352,7 @@ namespace Net.Pkcs11Admin.WinForms
             if (DialogResult.Yes != WinFormsUtils.AskQuestion(this, question))
                 return;
 
-            if (!_selectedSlot.TokenInfo.TokenInitialized)
+            if (null == _selectedSlot.TokenInfo || !_selectedSlot.TokenInfo.TokenInitialized)
             {
                 using (InitTokenDialog initTokenDialog = new InitTokenDialog(_selectedSlot))
                     if (initTokenDialog.ShowDialog() == DialogResult.OK)
@@ -1454,7 +1454,7 @@ namespace Net.Pkcs11Admin.WinForms
 
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                openFileDialog.Filter = "All files (*.*)|*.*|X.509 certificate (*.cer;*.crt;*.pem;*.der)|*.cer;*.crt;*.pem;*.der";
+                openFileDialog.Filter = "All files (*.*)|*.*|X.509 certificate (*.cer;*.crt;*.pem;*.der;*.p12)|*.cer;*.crt;*.pem;*.der;*.p12";
                 openFileDialog.FilterIndex = 2;
 
                 if (openFileDialog.ShowDialog(this) == DialogResult.OK)

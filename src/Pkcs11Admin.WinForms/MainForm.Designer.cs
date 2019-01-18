@@ -80,7 +80,9 @@ namespace Net.Pkcs11Admin.WinForms
             this.MenuItemUserInit = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemProtectedUserInit = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemObject = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemObjectDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainFormPanel = new System.Windows.Forms.Panel();
             this.MainFormTabControl = new System.Windows.Forms.TabControl();
             this.TabPageBasicInfo = new System.Windows.Forms.TabPage();
@@ -135,10 +137,8 @@ namespace Net.Pkcs11Admin.WinForms
             this.CtxMenuItemDomainParamsDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.CtxMenuItemDomainParamsCsvAll = new System.Windows.Forms.ToolStripMenuItem();
             this.CtxMenuItemDomainParamsCsvSelected = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ListViewBasicInfo = new Net.Pkcs11Admin.WinForms.Controls.EnhancedListView();
             this.ListViewCertificates = new Net.Pkcs11Admin.WinForms.Controls.EnhancedListView();
-            this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainFormStatusStrip.SuspendLayout();
             this.MainFormMenuStrip.SuspendLayout();
             this.MainFormPanel.SuspendLayout();
@@ -426,12 +426,26 @@ namespace Net.Pkcs11Admin.WinForms
             this.MenuItemObject.Size = new System.Drawing.Size(73, 20);
             this.MenuItemObject.Text = "Certificate";
             // 
+            // viewToolStripMenuItem
+            // 
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.viewToolStripMenuItem.Text = "View";
+            this.viewToolStripMenuItem.Click += new System.EventHandler(this.viewToolStripMenuItem_Click);
+            // 
             // MenuItemObjectDelete
             // 
             this.MenuItemObjectDelete.Name = "MenuItemObjectDelete";
             this.MenuItemObjectDelete.Size = new System.Drawing.Size(180, 22);
             this.MenuItemObjectDelete.Text = "Delete";
             this.MenuItemObjectDelete.Click += new System.EventHandler(this.MenuItemObjectDelete_Click);
+            // 
+            // importToolStripMenuItem
+            // 
+            this.importToolStripMenuItem.Name = "importToolStripMenuItem";
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.importToolStripMenuItem.Text = "Import";
+            this.importToolStripMenuItem.Click += new System.EventHandler(this.importToolStripMenuItem_Click);
             // 
             // MainFormPanel
             // 
@@ -883,13 +897,6 @@ namespace Net.Pkcs11Admin.WinForms
             this.CtxMenuItemDomainParamsCsvSelected.Text = "Export selected items to CSV...";
             this.CtxMenuItemDomainParamsCsvSelected.Click += new System.EventHandler(this.CtxMenuItemDomainParamsCsvSelected_Click);
             // 
-            // viewToolStripMenuItem
-            // 
-            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.viewToolStripMenuItem.Text = "View";
-            this.viewToolStripMenuItem.Click += new System.EventHandler(this.viewToolStripMenuItem_Click);
-            // 
             // ListViewBasicInfo
             // 
             this.ListViewBasicInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -921,13 +928,6 @@ namespace Net.Pkcs11Admin.WinForms
             this.ListViewCertificates.TabIndex = 1;
             this.ListViewCertificates.UseCompatibleStateImageBehavior = false;
             this.ListViewCertificates.View = System.Windows.Forms.View.Details;
-            // 
-            // importToolStripMenuItem
-            // 
-            this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.importToolStripMenuItem.Text = "Import";
-            this.importToolStripMenuItem.Click += new System.EventHandler(this.importToolStripMenuItem_Click);
             // 
             // MainForm
             // 

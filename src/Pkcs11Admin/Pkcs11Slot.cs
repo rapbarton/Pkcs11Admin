@@ -31,6 +31,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
+
 namespace Net.Pkcs11Admin
 {
     public class Pkcs11Slot : IDisposable
@@ -925,8 +926,49 @@ namespace Net.Pkcs11Admin
 
         public List<Tuple<ObjectAttribute, ClassAttribute>> ImportCertificate(string fileName, byte[] fileContent)
         {
+            X509Certificate x509Certificate = null;
             X509CertificateParser x509CertificateParser = new X509CertificateParser();
-            X509Certificate x509Certificate = x509CertificateParser.ReadCertificate(fileContent);
+            //List<X509Certificate> certs = new List<X509Certificate>();
+
+            if (fileName.EndsWith("p12"))
+            {
+                Pkcs12Store p12 = new Pkcs12Store();
+                p12.Load(new System.IO.MemoryStream(fileContent), "123456drrob".ToCharArray());
+                foreach (String entry in p12.Aliases)
+                {
+                    X509CertificateEntry cert = p12.GetCertificate(entry);
+                    String desc = cert.ToString();
+                    Type t = cert.GetType();
+                    x509Certificate = cert.Certificate;
+                    foreach (String c in cert.BagAttributeKeys)
+                    {
+                        String desc2 = c.ToString();
+                        Console.Out.Write(desc2);
+                    }
+                }
+
+            } else
+            {
+                x509Certificate = x509CertificateParser.ReadCertificate(fileContent);
+            }
+
+
+
+            //            X509Certificate c = (X509Certificate)p12.getCertificate(alias);
+            //                Principal subject = c.getSubjectDN();
+            //                String subjectArray[] = subject.toString().split(",");
+            //                for (String s : subjectArray)
+            //                {
+            //                    String[] str = s.trim().split("=");
+            //                    String key = str[0];
+            //                    String value = str[1];
+            //                    System.out.println(key + " - " + value);
+            //                }
+            //            }
+
+
+
+            
 
             List<Tuple<ObjectAttribute, ClassAttribute>> objectAttributes = StringUtils.GetCreateDefaultAttributes(Pkcs11Admin.Instance.Config.CertificateAttributes, (ulong)CKC.CKC_X_509);
 
@@ -975,6 +1017,11 @@ namespace Net.Pkcs11Admin
                 else if (objectAttribute.Type == (ulong)CKA.CKA_VALUE)
                 {
                     objectAttributes[i] = new Tuple<ObjectAttribute, ClassAttribute>(new ObjectAttribute(CKA.CKA_VALUE, x509Certificate.GetEncoded()), classAttribute);
+                } 
+                else
+                {
+                    ulong oat = objectAttribute.Type;
+                    System.Diagnostics.Debug.Print("type " + oat);
                 }
             }
 
